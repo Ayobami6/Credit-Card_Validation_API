@@ -2,7 +2,6 @@
     "compilerOptions": {
         "outDir": "./dist",
         "moduleResolution": "node",
-        "module": "ES6",
         "allowJs": true,
         "target": "ES6",
         "allowSyntheticDefaultImports": true,

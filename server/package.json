@@ -1,14 +1,13 @@
 {
     "name": "server",
     "version": "1.0.0",
-    "description": "MeetDevs Demo",
+    "description": "Credit Card API Validation",
     "main": "index.js",
-    "type": "module",
     "scripts": {
-        "start": "nodemon dist/index.js",
         "lint": "eslint . --ext .ts",
         "build": "tsc --w",
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "dev": "nodemon --experimental-json-modules --exec babel-node dist/index.js"
     },
     "author": "",
     "license": "ISC",
