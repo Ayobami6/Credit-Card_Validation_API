@@ -4,34 +4,39 @@
  */
 
 // utils functions
-const isAmericanExpress = (cardNumber: string): boolean => {
+export const isAmericanExpress = (cardNumber: string): boolean => {
     if (cardNumber.startsWith('34') || cardNumber.startsWith('37')) {
         return true;
     }
     return false;
 };
 
-const isLuhnsValid = (cardNumber: string): boolean => {
-    // check if cardNumber is between 16 and 19 digits long
-    if (!(cardNumber.length >= 16 && cardNumber.length <= 19)) {
+export const isLuhnsValid = (cardNumber: string): boolean => {
+    try {
+        // check if cardNumber is between 16 and 19 digits long
+        if (!(cardNumber.length >= 16 && cardNumber.length <= 19)) {
+            return false;
+        }
+
+        const digits = cardNumber.split('').reverse().map(Number);
+
+        const sum = digits.reduce((total, digit, index) => {
+            // use odd numbers to get next second digit
+            if (index % 2 === 1) {
+                // if second digit, double it
+                digit *= 2;
+                if (digit > 9) {
+                    digit -= 9;
+                }
+            }
+            return total + digit;
+        }, 0);
+
+        return sum % 10 === 0;
+    } catch (error) {
+        console.log(error.message);
         return false;
     }
-
-    const digits = cardNumber.split('').reverse().map(Number);
-
-    const sum = digits.reduce((total, digit, index) => {
-        // use odd numbers to get next second digit
-        if (index % 2 === 1) {
-            // if second digit, double it
-            digit *= 2;
-            if (digit > 9) {
-                digit -= 9;
-            }
-        }
-        return total + digit;
-    }, 0);
-
-    return sum % 10 === 0;
 };
 
 // interfaces
@@ -72,7 +77,7 @@ export const validPayment = (req, res): Response => {
         if (!isValid) {
             return res.status(400).json({ error: 'Invalid card number' });
         }
-        return res.status(200).json({ message: 'Payment Successful' });
+        return res.status(201).json({ message: 'Payment Successful' });
     } catch (error) {
         console.log(error.message);
         return res.status(500).json({ error: 'Internal server error' });

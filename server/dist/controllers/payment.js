@@ -3,30 +3,36 @@
  *
  */
 // utils functions
-const isAmericanExpress = (cardNumber) => {
+export const isAmericanExpress = (cardNumber) => {
     if (cardNumber.startsWith('34') || cardNumber.startsWith('37')) {
         return true;
     }
     return false;
 };
-const isLuhnsValid = (cardNumber) => {
-    // check if cardNumber is between 16 and 19 digits long
-    if (!(cardNumber.length >= 16 && cardNumber.length <= 19)) {
+export const isLuhnsValid = (cardNumber) => {
+    try {
+        // check if cardNumber is between 16 and 19 digits long
+        if (!(cardNumber.length >= 16 && cardNumber.length <= 19)) {
+            return false;
+        }
+        const digits = cardNumber.split('').reverse().map(Number);
+        const sum = digits.reduce((total, digit, index) => {
+            // use odd numbers to get next second digit
+            if (index % 2 === 1) {
+                // if second digit, double it
+                digit *= 2;
+                if (digit > 9) {
+                    digit -= 9;
+                }
+            }
+            return total + digit;
+        }, 0);
+        return sum % 10 === 0;
+    }
+    catch (error) {
+        console.log(error.message);
         return false;
     }
-    const digits = cardNumber.split('').reverse().map(Number);
-    const sum = digits.reduce((total, digit, index) => {
-        // use odd numbers to get next second digit
-        if (index % 2 === 1) {
-            // if second digit, double it
-            digit *= 2;
-            if (digit > 9) {
-                digit -= 9;
-            }
-        }
-        return total + digit;
-    }, 0);
-    return sum % 10 === 0;
 };
 // home / get controller
 export const home = (req, res) => {
@@ -57,7 +63,7 @@ export const validPayment = (req, res) => {
         if (!isValid) {
             return res.status(400).json({ error: 'Invalid card number' });
         }
-        return res.status(200).json({ message: 'Payment Successful' });
+        return res.status(201).json({ message: 'Payment Successful' });
     }
     catch (error) {
         console.log(error.message);
