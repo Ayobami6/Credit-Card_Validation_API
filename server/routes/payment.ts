@@ -1,8 +1,9 @@
 import { Router } from 'express';
-import { home } from '../controllers/payment';
+import { home, validPayment } from '../controllers/payment';
 
 const router: Router = Router();
 
 router.get('/', home);
+router.post('/validate', validPayment);
 
 export default router;
