@@ -1,11 +1,13 @@
 import axios from 'axios';
 import React, { useState } from 'react';
+import { useSnackbar } from 'notistack';
 
 const App: React.FC = () => {
     const [cardNumber, setCardNumber] = useState('');
     const [cvv, setCvv] = useState('');
     const [expiryDate, setExpireDate] = useState('');
     const [loading, setLoading] = useState(false);
+    const { enqueueSnackbar } = useSnackbar();
 
     const handlePayment = async () => {
         try {
@@ -20,10 +22,12 @@ const App: React.FC = () => {
                 data
             );
             setLoading(false);
+            enqueueSnackbar(response.data.message, { variant: 'success' });
             console.log(response);
         } catch (error) {
             setLoading(false);
-            console.log(error);
+            enqueueSnackbar(error.response.data.error, { variant: 'error' });
+            console.log(error.response.data.error);
         }
     };
 
@@ -82,15 +86,15 @@ const App: React.FC = () => {
                             />
                         </div>
                     </div>
-                    <div className="justify-self-center ">
-                    {loading ? (
-                        <div className='w-16 h-16 border-t-4 border-blue-500 border-solid rounded-full animate-spin'></div>
-                    ) : (
-                        ''
-                    )}
+                    <div className='self-center '>
+                        {loading ? (
+                            <div className='w-16 h-16 border-t-4 border-blue-500 border-solid rounded-full animate-spin'></div>
+                        ) : (
+                            ''
+                        )}
                     </div>
                     <button
-                        className='justify-self-center w-60 p-2 w-20 bg-sky-300 m-8 rounded-xl text-white font-bold text-lg'
+                        className='self-center w-60 p-2 w-20 bg-sky-300 m-8 rounded-xl text-white font-bold text-lg'
                         onClick={handlePayment}
                     >
                         Pay
