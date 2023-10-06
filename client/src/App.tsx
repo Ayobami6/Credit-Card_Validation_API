@@ -18,7 +18,7 @@ const App: React.FC = () => {
             };
             setLoading(true);
             const response = await axios.post(
-                'https://urban-meme-g9xg9jxvv5hwj5j-3000.app.github.dev/validate',
+                'http://0.0.0.0:3000/validate',
                 data
             );
             setLoading(false);

@@ -41,7 +41,8 @@ We’d like to see you implement at least Points 1 to 3 so that we have somethin
 
 ```bash
 git clone https://github.com/Ayobami6/Credit-Card_Validation_API 
-cd Credit-Card_Validation_API 
+cd Credit-Card_Validation_API
+npm install
 ```
 
 #### Install Dependencies for both Client and Server
